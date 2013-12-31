@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "MyAzureEmailService", "MyAzureEmailService\MyAzureEmailService.ccproj", "{5E6FCB6A-4654-4FAF-A777-6D0F12B32D33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcWebRole", "MvcWebRole\MvcWebRole.csproj", "{65B1933E-C192-4F2B-B308-0A6255BCAEFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerRoleA", "WorkerRoleA\WorkerRoleA.csproj", "{4A9D3C54-EC47-4870-BB31-B557891B0C09}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E6FCB6A-4654-4FAF-A777-6D0F12B32D33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E6FCB6A-4654-4FAF-A777-6D0F12B32D33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E6FCB6A-4654-4FAF-A777-6D0F12B32D33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E6FCB6A-4654-4FAF-A777-6D0F12B32D33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65B1933E-C192-4F2B-B308-0A6255BCAEFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65B1933E-C192-4F2B-B308-0A6255BCAEFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65B1933E-C192-4F2B-B308-0A6255BCAEFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65B1933E-C192-4F2B-B308-0A6255BCAEFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A9D3C54-EC47-4870-BB31-B557891B0C09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A9D3C54-EC47-4870-BB31-B557891B0C09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A9D3C54-EC47-4870-BB31-B557891B0C09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A9D3C54-EC47-4870-BB31-B557891B0C09}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
