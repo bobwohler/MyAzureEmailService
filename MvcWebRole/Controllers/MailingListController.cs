@@ -1,14 +1,13 @@
-﻿using Microsoft.WindowsAzure.Storage.Table;
+﻿using Microsoft.WindowsAzure.ServiceRuntime;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.RetryPolicies;
+using Microsoft.WindowsAzure.Storage.Table;
+using MvcWebRole.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.ServiceRuntime;
-using MvcWebRole.Models;
-using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using System.Diagnostics;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace MvcWebRole.Controllers
 {
@@ -128,7 +127,7 @@ namespace MvcWebRole.Controllers
                         }
                         
                         ModelState.AddModelError(string.Empty, "The record you attempted to edit was modified by another user after you got the original value." +
-                            "The edit operationwas canceled and the current values in the database have been displayed. If you still want to edit the this record, click the 'Save' button again. " +
+                            "The edit operation was canceled and the current values in the database have been displayed. If you still want to edit the this record, click the 'Save' button again. " +
                             "Otherwise click the 'Back to List' hyperlink.");
 
                         ModelState.SetModelValue("ETag", new ValueProviderResult(currentMailingList.ETag, currentMailingList.ETag, null));
@@ -140,6 +139,41 @@ namespace MvcWebRole.Controllers
                 }
             }
             return View(editedMailingList);
+        }
+
+        [HttpPost,ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        // Delete all rows for this mailing list, that is,
+        // Subscriber wos as well as MailingList rows.
+        // Therefore no need to specify a row key.
+        public ActionResult DeleteConfirmed(string partionKey)
+        {
+            var query = new TableQuery<MailingList>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partionKey));
+            var listRows = mailingListTable.ExecuteQuery(query).ToList();
+            var batchOperation = new TableBatchOperation();
+            int itemsInBatch = 0;
+            // Iterate the returned rows and delete them.
+            // NOTE: the MailingList object is used for both MailingList and SubscriberList objects
+            // since they both contain the PartitionKey, RowKey and etag values, which are
+            // all that's needed to delete the rows.
+            foreach (MailingList listRow in listRows)
+            {
+                batchOperation.Delete(listRow);
+                itemsInBatch++;
+                // Execute the delete in batches of 100.
+                if (itemsInBatch == 100)
+                {
+                    mailingListTable.ExecuteBatch(batchOperation);
+                    itemsInBatch = 0;
+                    batchOperation = new TableBatchOperation();
+                }
+            }
+            // Process stragglers in last batch that is likely less than 100.
+            if (itemsInBatch > 0)
+            {
+                mailingListTable.ExecuteBatch(batchOperation);
+            }
+            return RedirectToAction("Index");
         }
 	}
 }
